@@ -12,12 +12,15 @@ public class Main {
         pw.flush();
         pw.close();
     }
+    static int[] a;
     private static void solve(Scanner sc, PrintWriter pw){
         int n = sc.nextInt();
-        SegmentTree minST = new SegmentTree(0, n-1);
+        a = new int[n];
         for(int i = 0; i < n; i++){
-            minST.update(i, sc.nextInt());
+            a[i] = sc.nextInt();
         }
+        SegmentTree minST = new SegmentTree(0, n-1);
+        
         int k = sc.nextInt();
         for(int i = 0; i < k; i++){
             int b = sc.nextInt();
@@ -39,11 +42,13 @@ public class Main {
         public SegmentTree(int start, int end){
             this.start = start;
             this.end = end;
-            min = INF;
-            if(start != end){
+            if(start == end){
+                this.min = a[start];
+            }else{
                 int mid = start + ((end - start)>>1);
                 left = new SegmentTree(start, mid);
                 right = new SegmentTree(mid+1, end);
+                this.min = Math.min(left.min, right.min);
             }
         }
         
